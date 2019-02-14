@@ -15,9 +15,11 @@ use Monolog\Logger;
 class Log
 {
 
-	const DEFAULT_LOG_DIRECTORY = '/tmp/';
+	const DEFAULT_LOG_DIRECTORY = '/data/logs_bak/';
 
 	const DEFAULT_LOG_SEPARATOR = '#';
+
+	const DEFAULT_LOGFILE_SUFFIX = '.log';
 
 	const LOGSETTING_SLICE_DAILY = 'daily';
 	const LOGSETTING_SLICE_MONTH = 'monthly';
@@ -99,7 +101,7 @@ class Log
             $suffix = date('Ym');
         }
 
-        return $suffix . '.log';
+        return $suffix . self::DEFAULT_LOGFILE_SUFFIX;
     }
 
 }
