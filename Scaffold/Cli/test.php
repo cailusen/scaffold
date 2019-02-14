@@ -3,4 +3,4 @@ include "../../vendor/autoload.php";
 
 use Scaffold\Tools\Log;
 
-Log::debug('ssss');
+Log::info('ssss', ['112','23']);
