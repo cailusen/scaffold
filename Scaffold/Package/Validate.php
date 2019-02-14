@@ -7,8 +7,16 @@ abstract class Validate
 {
 
 
-    abstract public static function rules();
+    /**
+     * @return array
+     *
+     * @example [
+     * ['name', 'required', [], '{fields} error message', 'label']
+     * ['field', 'valition rule', [args], 'message', 'Lable']
+     * ]
+     */
+    abstract protected function rules();
 
-    
+
 
 }
