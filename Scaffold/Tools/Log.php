@@ -1,4 +1,5 @@
 <?php
+
 namespace Scaffold\Tools;
 
 use Monolog\Formatter\LineFormatter;
@@ -27,6 +28,8 @@ class Log
 
 
 	private static $singleLogger = [];
+	private static $singleStreamHandler = [];
+	private static $singlePHPFireHandler = null;
 
 	private static $logLevel = [
 	    'debug' => Logger::DEBUG,
@@ -55,25 +58,45 @@ class Log
 
 	}
 
+	private static function getSingleLogger($logPath) {
+		if (!isset(self::$singleLogger[$logPath])) {
+			self::$singleLogger[$logPath] = new Logger($logPath);
+		}
+		return self::$singleLogger[$logPath];
+	}
+
+	private static function getSingleStreamHandler($logPath, $level) {
+		if (!isset(self::$singleStreamHandler[$logPath ."-". $level])) {
+			$output = "%datetime%".self::DEFAULT_LOG_SEPARATOR."%level_name%".self::DEFAULT_LOG_SEPARATOR."%message%".self::DEFAULT_LOG_SEPARATOR."%context%".self::DEFAULT_LOG_SEPARATOR."%extra%\n";
+			$lineFormat = new LineFormatter($output);
+			$stream = new StreamHandler(self::DEFAULT_LOG_DIRECTORY . $logPath, self::$logLevel[$level]);
+			$stream -> setFormatter($lineFormat);
+			self::$singleStreamHandler[$logPath ."-". $level] = $stream;
+		}
+		return self::$singleStreamHandler[$logPath ."-". $level];
+	}
+
+	private static function getSingleFirePHPHandler()
+	{
+		if (!self::$singlePHPFireHandler) {
+			self::$singlePHPFireHandler= new FirePHPHandler();
+		}
+		return self::$singlePHPFireHandler;
+	}
+
 	private static function addGeneralLog($logPath, $line, $level, $arguments)
     {
         $level = strtolower($level);
-        if (!isset(self::$singleLogger[$logPath])) {
-            self::$singleLogger[$logPath] = new Logger($logPath);
-            $output = "%datetime%".self::DEFAULT_LOG_SEPARATOR."%level_name%".self::DEFAULT_LOG_SEPARATOR."%message%".self::DEFAULT_LOG_SEPARATOR."%context%".self::DEFAULT_LOG_SEPARATOR."%extra%\n";
-            $lineFormat = new LineFormatter($output);
-            $stream = new StreamHandler(self::DEFAULT_LOG_DIRECTORY . $logPath, self::$logLevel[$level]);
-            $stream -> setFormatter($lineFormat);
-            $firePHP = new FirePHPHandler();
-            self::$singleLogger[$logPath] -> pushHandler($stream);
-            self::$singleLogger[$logPath] -> pushHandler($firePHP);
-        }
 
-        $tagMsg = $line . self::DEFAULT_LOG_SEPARATOR . array_shift($arguments);
-        if (isset($_SERVER['HTTP_USER_AGENT'])) {
-            array_push($arguments, $_SERVER['HTTP_USER_AGENT']);
-        }
-        self::$singleLogger[$logPath] -> $level($tagMsg, $arguments);
+		$tagMsg = $line . self::DEFAULT_LOG_SEPARATOR . array_shift($arguments);
+		if (isset($_SERVER['HTTP_USER_AGENT'])) {
+			array_push($arguments, $_SERVER['HTTP_USER_AGENT']);
+		}
+
+        self::getSingleLogger($logPath)
+			->pushHandler(self::getSingleStreamHandler($logPath, $level))
+			->pushHandler(self::getSingleFirePHPHandler())
+			->$level($tagMsg, $arguments);
     }
 
 	private static function getLogPath($debugTrace)

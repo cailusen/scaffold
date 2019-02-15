@@ -11,8 +11,8 @@ abstract class Validate
      * @return array
      *
      * @example [
-     * ['name', 'required', [], '{fields} error message', 'label']
-     * ['field', 'valition rule', [args], 'message', 'Lable']
+     * ['name', 'required', [], '{fields} error message', 'label', [scenes]]
+     * ['field', 'valition rule', [args], 'message', 'Lable', [scenes]]
      * ]
      */
     abstract protected function rules();
