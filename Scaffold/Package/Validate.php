@@ -63,9 +63,8 @@ abstract class Validate
 				call_user_func_array($v, [$args]);
 			} else {
 				array_unshift($args, $field);
-				call_user_func_array($v, [[
-					$ruleFun => $args
-				]]);
+				array_unshift($args, $ruleFun);
+				call_user_func_array([$v, 'rule'], $args);
 			}
 			if (!$v->validate()) {
 				self::$errorMsg = $errorMsg;
