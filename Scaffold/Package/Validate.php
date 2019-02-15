@@ -22,6 +22,7 @@ abstract class Validate
      */
     abstract static protected function rules();
 
+    const RULE_FUNC_CALLBACK = "CallBack";
 
     private function __construct()
 	{
@@ -59,12 +60,15 @@ abstract class Validate
 			$ruleFun = $rule[1];
 			$args = $rule[2] ? : [];
 			$errorMsg = $rule[3];
-			if ($ruleFun == "callBack" && is_callable($args)) {
-				call_user_func_array($v, [$args]);
+			$callFunc = [
+				$v, 'rule'
+			];
+			if ($ruleFun == self::RULE_FUNC_CALLBACK && is_callable($args)) {
+				call_user_func_array($callFunc, [$args, $field]);
 			} else {
 				array_unshift($args, $field);
 				array_unshift($args, $ruleFun);
-				call_user_func_array([$v, 'rule'], $args);
+				call_user_func_array($callFunc, $args);
 			}
 			if (!$v->validate()) {
 				self::$errorMsg = $errorMsg;
