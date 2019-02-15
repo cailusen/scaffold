@@ -64,12 +64,12 @@ abstract class Validate
 				$v, 'rule'
 			];
 			if ($ruleFun == self::RULE_FUNC_CALLBACK && is_callable($args)) {
-				call_user_func_array($callFunc, [$args, $field]);
+			    $args = [$args, $field];
 			} else {
 				array_unshift($args, $field);
 				array_unshift($args, $ruleFun);
-				call_user_func_array($callFunc, $args);
 			}
+            call_user_func_array($callFunc, $args);
 			if (!$v->validate()) {
 				self::$errorMsg = $errorMsg;
 				return false;
