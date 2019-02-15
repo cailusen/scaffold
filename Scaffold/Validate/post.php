@@ -11,10 +11,15 @@ class post extends Validate
         return [
             ['name', 'lengthBetween', [2,10], 'chang du 2 - 10', ['create']],
 			['nick', 'required', [], 'bi xu cun zai', ['create']],
-			['nick', self::RULE_FUNC_CALLBACK, function ($field, $value, array $params, array $fields) {
-        	return false;
-			}, 'shu zu chang du bu gou', ['create']],
+			['nick', self::RULE_FUNC_CALLBACK, [self::class, "checkNick"], 'shu zu chang du bu gou', ['create']],
         ];
+    }
+
+    public static function checkNick($field, $value, array $params, array $fields)
+    {
+        var_dump($field, $value,$params, $fields);
+        return false;
+
     }
 
 }
