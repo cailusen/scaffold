@@ -69,7 +69,7 @@ class Log
 		if (!isset(self::$singleStreamHandler[$logPath ."-". $level])) {
 			$output = "%datetime%".self::DEFAULT_LOG_SEPARATOR."%level_name%".self::DEFAULT_LOG_SEPARATOR."%message%".self::DEFAULT_LOG_SEPARATOR."%context%".self::DEFAULT_LOG_SEPARATOR."%extra%\n";
 			$lineFormat = new LineFormatter($output);
-			$stream = new StreamHandler(self::DEFAULT_LOG_DIRECTORY . $logPath, self::$logLevel[$level]);
+			$stream = new StreamHandler(self::DEFAULT_LOG_DIRECTORY . $logPath, self::$logLevel[$level], true, 0666);
 			$stream -> setFormatter($lineFormat);
 			self::$singleStreamHandler[$logPath ."-". $level] = $stream;
 		}
