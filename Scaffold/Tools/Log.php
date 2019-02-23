@@ -30,6 +30,7 @@ class Log
 	private static $singleLogger = [];
 	private static $singleStreamHandler = [];
 	private static $singlePHPFireHandler = null;
+	private static $singleLineFormatter = null;
 
 	private static $logLevel = [
 	    'debug' => Logger::DEBUG,
@@ -65,14 +66,21 @@ class Log
 		return self::$singleLogger[$logPath];
 	}
 
-	private static function getSingleStreamHandler($logPath, $level) {
+	private static function getSingleLineFormatter($line) {
+	    if (!isset(self::$singleLineFormatter[$line])) {
+            $output = "%datetime%".self::DEFAULT_LOG_SEPARATOR."%level_name%".self::DEFAULT_LOG_SEPARATOR."LINE:".$line.self::DEFAULT_LOG_SEPARATOR."%message%".self::DEFAULT_LOG_SEPARATOR."%context%".self::DEFAULT_LOG_SEPARATOR."%extra%\n";
+            $lineFormat = new LineFormatter($output);
+	        self::$singleLineFormatter[$line] = $lineFormat;
+        }
+	    return self::$singleLineFormatter[$line];
+    }
+
+	private static function getSingleStreamHandler($logPath, $level, $line) {
 		if (!isset(self::$singleStreamHandler[$logPath ."-". $level])) {
-			$output = "%datetime%".self::DEFAULT_LOG_SEPARATOR."%level_name%".self::DEFAULT_LOG_SEPARATOR."%message%".self::DEFAULT_LOG_SEPARATOR."%context%".self::DEFAULT_LOG_SEPARATOR."%extra%\n";
-			$lineFormat = new LineFormatter($output);
-			$stream = new StreamHandler(self::DEFAULT_LOG_DIRECTORY . $logPath, self::$logLevel[$level], true, 0666);
-			$stream -> setFormatter($lineFormat);
+			$stream = new StreamHandler(self::DEFAULT_LOG_DIRECTORY . $logPath, self::$logLevel[$level], false, 0666);
 			self::$singleStreamHandler[$logPath ."-". $level] = $stream;
 		}
+		self::$singleStreamHandler[$logPath ."-". $level] -> setFormatter(self::getSingleLineFormatter($line));
 		return self::$singleStreamHandler[$logPath ."-". $level];
 	}
 
@@ -88,13 +96,13 @@ class Log
     {
         $level = strtolower($level);
 
-		$tagMsg = $line . self::DEFAULT_LOG_SEPARATOR . array_shift($arguments);
+		$tagMsg = array_shift($arguments);
 		if (isset($_SERVER['HTTP_USER_AGENT'])) {
 			array_push($arguments, $_SERVER['HTTP_USER_AGENT']);
 		}
 
         self::getSingleLogger($logPath)
-			->pushHandler(self::getSingleStreamHandler($logPath, $level))
+			->pushHandler(self::getSingleStreamHandler($logPath, $level, $line))
 			->pushHandler(self::getSingleFirePHPHandler())
 			->$level($tagMsg, $arguments);
     }
