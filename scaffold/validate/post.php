@@ -1,7 +1,7 @@
 <?php
-namespace Scaffold\Validate;
+namespace Scaffold\validate;
 
-use Scaffold\Package\Validate;
+use Scaffold\package\Validate;
 
 class post extends Validate
 {

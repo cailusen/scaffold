@@ -1,6 +1,6 @@
 <?php
 
-namespace Scaffold\Package;
+namespace Scaffold\package;
 
 use Valitron\Validator;
 

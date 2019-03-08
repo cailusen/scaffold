@@ -1,6 +1,6 @@
 <?php
 
-namespace Scaffold\Tools;
+namespace Scaffold\tools;
 
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\FirePHPHandler;
@@ -10,7 +10,7 @@ use Monolog\Logger;
 
 /**
  * Class Log
- * @package Scaffold\Tools
+ * @package scaffold\Tools
  * example Log::info($tag, array $data);
  */
 class Log

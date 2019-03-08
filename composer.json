@@ -5,7 +5,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Scaffold\\": "Scaffold/"
+            "scaffold\\": "Scaffold/"
         }
     }
 }
