@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8cd72779f6ab2bd1b347acab7165aa3a",
+    "content-hash": "135a1c0e54c6ae3552f005ac16181e74",
     "packages": [
         {
             "name": "monolog/monolog",
@@ -85,6 +85,80 @@
             "time": "2018-11-05T09:00:11+00:00"
         },
         {
+            "name": "php-amqplib/php-amqplib",
+            "version": "v2.9.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-amqplib/php-amqplib.git",
+                "reference": "76faddcd668dabb8d4f7c00e86b8a9decd781a59"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-amqplib/php-amqplib/zipball/76faddcd668dabb8d4f7c00e86b8a9decd781a59",
+                "reference": "76faddcd668dabb8d4f7c00e86b8a9decd781a59",
+                "shasum": ""
+            },
+            "require": {
+                "ext-bcmath": "*",
+                "ext-sockets": "*",
+                "php": ">=5.4.0"
+            },
+            "replace": {
+                "videlalvaro/php-amqplib": "self.version"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "nategood/httpful": "^0.2.20",
+                "phpdocumentor/phpdocumentor": "^2.9",
+                "phpunit/phpunit": "^4.8",
+                "squizlabs/php_codesniffer": "^2.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpAmqpLib\\": "PhpAmqpLib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Alvaro Videla",
+                    "role": "Original Maintainer"
+                },
+                {
+                    "name": "John Kelly",
+                    "email": "johnmkelly86@gmail.com",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Raúl Araya",
+                    "email": "nubeiro@gmail.com",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Luke Bakken",
+                    "email": "luke@bakken.io",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Formerly videlalvaro/php-amqplib.  This library is a pure PHP implementation of the AMQP protocol. It's been tested against RabbitMQ.",
+            "homepage": "https://github.com/php-amqplib/php-amqplib/",
+            "keywords": [
+                "message",
+                "queue",
+                "rabbitmq"
+            ],
+            "time": "2019-04-24T15:36:21+00:00"
+        },
+        {
             "name": "psr/log",
             "version": "1.1.0",
             "source": {
@@ -133,16 +207,16 @@
         },
         {
             "name": "vlucas/valitron",
-            "version": "v1.4.4",
+            "version": "v1.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/valitron.git",
-                "reference": "c6893fc67ef1228f7692a86ca13c34e5e9ecc9a8"
+                "reference": "c3b4dac8586291990e6398961852e972600ac7b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/valitron/zipball/c6893fc67ef1228f7692a86ca13c34e5e9ecc9a8",
-                "reference": "c6893fc67ef1228f7692a86ca13c34e5e9ecc9a8",
+                "url": "https://api.github.com/repos/vlucas/valitron/zipball/c3b4dac8586291990e6398961852e972600ac7b5",
+                "reference": "c3b4dac8586291990e6398961852e972600ac7b5",
                 "shasum": ""
             },
             "require": {
@@ -178,7 +252,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2018-12-14T21:15:14+00:00"
+            "time": "2019-03-21T20:12:22+00:00"
         }
     ],
     "packages-dev": [],

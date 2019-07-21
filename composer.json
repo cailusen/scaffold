@@ -1,11 +1,12 @@
 {
     "require": {
         "monolog/monolog": "^1.24",
-        "vlucas/valitron": "^1.4"
+        "vlucas/valitron": "^1.4",
+        "php-amqplib/php-amqplib": "^2.9"
     },
     "autoload": {
         "psr-4": {
-            "scaffold\\": "Scaffold/"
+            "Scaffold\\": "scaffold/"
         }
     }
 }
