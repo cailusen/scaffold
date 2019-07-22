@@ -3,6 +3,7 @@
 namespace Scaffold\package;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Exception\AMQPChannelClosedException;
 use PhpAmqpLib\Exchange\AMQPExchangeType;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -27,7 +28,7 @@ abstract class BasicRabbitmq
     private static function getConnection($force = false)
     {
         if (!self::$connection || $force) {
-           self::$connection = new AMQPStreamConnection('192.168.43.43', '5672', 'admin', 'admin');
+           self::$connection = new AMQPStreamConnection('192.168.27.187', '5672', 'admin', 'admin');
         }
         return self::$connection;
     }
@@ -64,7 +65,7 @@ abstract class BasicRabbitmq
                 self::getConnection()->close();
 
                 return true;
-            }catch (\Exception $e) {
+            }catch (AMQPChannelClosedException $e) {
                 usleep(500);
                 $trynum++;
                 self::getChannel(true);
@@ -88,8 +89,8 @@ abstract class BasicRabbitmq
                     return static::buildResult($message->body);
                 }
 
-                return false;
-            }catch (\Exception $e) {
+                return null;
+            }catch (AMQPChannelClosedException $e) {
                 usleep(500);
                $trynum++;
                self::getChannel(true);
