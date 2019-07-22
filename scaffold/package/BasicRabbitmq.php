@@ -37,7 +37,11 @@ abstract class BasicRabbitmq
     {
         $singleKey = md5(static::class);
         if (!isset(self::$channel[$singleKey]) || $force) {
-            $channel = self::getConnection($force)->channel();
+        	try{
+				$channel = self::getConnection()->channel();
+			}catch (\Exception $e) {
+				$channel = self::getConnection(true)->channel();
+			}
 
             $channel->exchange_declare(static::EXCHANGE_NAME, static::EXCHANGE_TYPE, false, true, false);
             $channel->queue_declare(static::QUEUE_NAME, false, true, false, false);
