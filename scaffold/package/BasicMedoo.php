@@ -8,9 +8,10 @@ class BasicMedoo
 
 	const _TABLE_NAME = '';
 
-	const CONF_DATABASE_TYPE = 'mysql';
+	const CONF_DATABASE_TYPE = '';
 	const CONF_DATABASE_NAME = '';
 	const CONF_SERVER = '';
+	const CONF_PORT ='' ;
 	const CONF_USERNAME = '';
 	const CONF_PASSWORD = '';
 	private static $instance = [];
@@ -26,7 +27,8 @@ class BasicMedoo
 			'database_name' => static::CONF_DATABASE_NAME,
 			'server' => self::CONF_SERVER,
 			'username' => self::CONF_USERNAME,
-			'password' => self::CONF_PASSWORD
+			'password' => self::CONF_PASSWORD,
+			'port' => self::CONF_PORT,
 		];
 		$singleKey = md5(json_encode($config, JSON_UNESCAPED_UNICODE));
 		if (!isset(self::$instance[$singleKey])) {
